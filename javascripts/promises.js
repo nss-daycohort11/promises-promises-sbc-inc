@@ -21,21 +21,24 @@ requirejs(
       });
     });
 
-    /*
-      getBookTypes()
-        .then(function(types) {
-          getBooks(types);
-        })
-        .then(function(books) {
-          // add the type key to each book that is currently
-          // being performed in the get-books file
+    /* Here's some pseudo-code for how it should look once you
+       start using promises
 
-          // then bind the template to the data
-          require(['hbs!../templates/books'], function(bookTpl) {
-            $("#bookList").html(bookTpl({ books:bookArray }));
-          });
+    getBookTypes()
+      .then(function(types) {
+        getBooks(types);
+      })
+      .then(function(books) {
+        // add the type key to each book that is currently
+        // being performed in the get-books file
 
-        })
+        // then bind the template to the data 
+        // (p.s. make the handlebar template a module dependency)
+        require(['hbs!../templates/books'], function(bookTpl) {
+          $("#bookList").html(bookTpl({ books:bookArray }));
+        });
+
+      })
      */
 
   }
