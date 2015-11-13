@@ -13,8 +13,8 @@ requirejs.config({
 });
 
 requirejs(
-  ["jquery", "hbs", "bootstrap", "get-books", "get-types", "format"], 
-  function($, Handlebars, bootstrap, books, types, format) {
+  ["jquery", "hbs", "lodash", "bootstrap", "get-books", "get-types", "format"], 
+  function($, Handlebars, lodash, bootstrap, books, types, format) {
   console.log(types);
 //Here's some pseudo-code for how it should look once you start using promises
   var booktype = "";
@@ -26,30 +26,30 @@ requirejs(
         booktype = types;
         books.load()
           .then(function(books) {
-              console.log("API-books call successful and responded with", books);
-              bookinfo = books;
-              
-              types = Object.keys( booktype ).map(key => booktype[ key ]);
-              books = Object.keys( bookinfo ).map(key => bookinfo[ key ]);
+            console.log("API-books call successful and responded with", books);
+            bookinfo = books;
+            
+            types = Object.keys( booktype ).map(key => booktype[ key ]);
+            books = Object.keys( bookinfo ).map(key => bookinfo[ key ]);
 
-      console.log("types ", types);
-      console.log("books ", books);
+            console.log("types ", types);
+            console.log("books ", books);
            
     //I'm using the lodash `find()` method here. https://lodash.com/docs#find              
     // add the type key to each book that is currently being performed in the get-books file
 
-              var books = books.map(book => {
-                book.type = _.find(types, { id:book.booktype }).label;
-                return book;
-              });
-      console.log("books ", books);
+            var bookformat = books.map(book => {
+               book.type = _.find(types, { id:book.booktype }).label;
+              return book;
+            });
+            
+           console.log("bookformat ", bookformat);
 
-            // then bind the template to the data ----Call a format.js template module"
-            // (p.s. make the handlebar template a module dependency)
-            //  format.formatData(books);
-      })   //////////.then
+              // then bind the template to the data ----Call a format.js template module"
+            format.formatData(bookformat);
+      })   ////////// second.then
 
-    })  ////////////.then
+    })  //////////// first.then
 // Fail gets executed when promise is rejected
       .fail(function(error) {
         console.log("API call failed with error", error);

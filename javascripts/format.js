@@ -3,12 +3,13 @@ define(["jquery", "hbs"],
 
   return {
 
-    formatData: function(bookAray) {
+    formatData: function(books) {
 
          require(['hbs!../templates/books'], function(bookTpl) {
-            $("#bookList").html(bookTpl({ books:bookArray }));
+            $("#bookList").html(bookTpl({ books }));
         });
     }
 
   }
 });
+
