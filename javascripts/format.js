@@ -3,7 +3,7 @@ define(["jquery", "hbs"],
 
   return {
 
-    formatData: function(books:bookArray) {
+    formatData: function(bookAray) {
 
          require(['hbs!../templates/books'], function(bookTpl) {
             $("#bookList").html(bookTpl({ books:bookArray }));

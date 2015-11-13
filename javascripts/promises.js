@@ -4,7 +4,8 @@ requirejs.config({
     'jquery': '../lib/bower_components/jquery/dist/jquery.min',
     'lodash': '../lib/bower_components/lodash/lodash.min',
     'hbs': '../lib/bower_components/require-handlebars-plugin/hbs',
-    'bootstrap': '../lib/bower_components/bootstrap/dist/js/bootstrap.min'
+    'bootstrap': '../lib/bower_components/bootstrap/dist/js/bootstrap.min',
+     'q': '../lib/bower_components/q/q'
   },
   shim: {
     'bootstrap': ['jquery']
@@ -12,20 +13,25 @@ requirejs.config({
 });
 
 requirejs(
-  ["jquery", "hbs", "bootstrap", "get-books"], 
-  function($, Handlebars, bootstrap, books) {
- 
+  ["jquery", "hbs", "bootstrap", "get-books", "get-types", "format"], 
+  function($, Handlebars, bootstrap, books, types, format) {
+  console.log(types);
 //Here's some pseudo-code for how it should look once you start using promises
+  var booktype = "";
+  var bookinfo = "";
+
     types.load()
       .then(function(types) {
         console.log("API-types call successful and responded with", types);
+        booktype = types;
         books.load();
       })
       .then(function(books) {
           console.log("API-books call successful and responded with", books);
+          bookinfo = books;
           
-          types = Object.keys( types ).map(key => types[ key ]);
-          books = Object.keys( books ).map(key => books[ key ]);
+          types = Object.keys( booktype ).map(key => booktype[ key ]);
+          books = Object.keys( bookinfo ).map(key => bookinfo[ key ]);
 
   console.log("types ", types);
   console.log("books ", books);
@@ -37,25 +43,16 @@ requirejs(
             book.type = _.find(types, { id:book.booktype }).label;
             return book;
           });
+  console.log("books ", books);
 
         // then bind the template to the data ----Call a format.js template module"
         // (p.s. make the handlebar template a module dependency)
-          format.formatData(books:bookArray);
+        //  format.formatData(books);
 
-    });
+    })
 // Fail gets executed when promise is rejected
       .fail(function(error) {
         console.log("API call failed with error", error);
       });
-
-
-// firstXHR()
-//   .then(function(data1) {
-//     return secondXHR(data1);
-//   })
-//   .then(function(data2) {
-//     return thirdXHR(data2);
-//   })
-//   .done();
 });
 
